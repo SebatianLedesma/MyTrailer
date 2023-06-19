@@ -1,0 +1,11 @@
+<resources>
+    <string name="slogan_message">¡Disfruta de los ultimos avances de peliculas antes que nadie!</string>
+    <string name="app_name">My Trailer</string>
+    <string name="desc_volver">Volver a la pagina principal</string>
+    <string name="btn_accion">Acción</string>
+    <string name="btn_terror">Terror</string>
+    <string name="btn_comedia">Comedia</string>
+    <string name="btn_ficcion">Ficción</string>
+    <string name="btn_drama">Drama</string>
+    <string name="welcome_message">¡Bienvenido!</string>
+</resources>

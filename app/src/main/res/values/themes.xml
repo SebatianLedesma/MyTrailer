@@ -1,0 +1,8 @@
+<resources>
+    <style name="Base.Theme.MyTrailer" parent="Theme.Material3.DayNight.NoActionBar">
+        <!-- Personaliza los atributos del estilo aquí -->
+        <item name="colorPrimary">#FF5722</item>
+        <item name="android:textColor">@color/colorPrimary</item>
+        <item name="android:background">@color/colorBackgroundDark</item>
+    </style>
+</resources>
