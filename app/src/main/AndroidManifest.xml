@@ -15,6 +15,21 @@
         android:theme="@style/Base.Theme.MyTrailer"
         tools:targetApi="31">
         <activity
+            android:name=".ListaActivity"
+            android:exported="false" />
+        <activity
+            android:name=".DramaActivity"
+            android:exported="false" />
+        <activity
+            android:name=".FiccionActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ComediaActivity"
+            android:exported="false" />
+        <activity
+            android:name=".SuspensoActivity"
+            android:exported="false" />
+        <activity
             android:name=".ReproductorVideoActivity"
             android:exported="false" />
         <activity
