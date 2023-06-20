@@ -8,45 +8,38 @@
     android:gravity="center"
     android:padding="16dp">
 
-    <TextView
-        android:id="@+id/tvWelcome"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
-        android:text="@string/welcome_message"
-        android:textSize="30sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
     <Button
         android:id="@+id/btnAccion"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="20dp"
+        android:layout_marginBottom="32dp"
         android:text="@string/btn_accion"
         android:textSize="30sp"
-        app:layout_constraintBottom_toTopOf="@+id/btnTerror"
+        app:layout_constraintBottom_toTopOf="@+id/btnSuspenso"
         tools:layout_editor_absoluteX="16dp" />
 
+    <TextView
+        android:id="@+id/tvWelcome"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="28dp"
+        android:text="@string/welcome_message"
+        android:textSize="30sp"
+        app:layout_constraintBottom_toTopOf="@+id/btnAccion"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.497"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.25" />
+
     <Button
-        android:id="@+id/btnTerror"
+        android:id="@+id/btnSuspenso"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="20dp"
+        android:layout_marginBottom="36dp"
         android:text="@string/btn_suspenso"
         android:textSize="30sp"
         app:layout_constraintBottom_toTopOf="@+id/btnComedia"
-        tools:layout_editor_absoluteX="6dp" />
-
-    <Button
-        android:id="@+id/btnComedia"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="20dp"
-        android:text="@string/btn_comedia"
-        android:textSize="30sp"
-        app:layout_constraintBottom_toTopOf="@+id/btnFiccion"
         tools:layout_editor_absoluteX="16dp" />
 
     <Button
@@ -63,11 +56,39 @@
         android:id="@+id/btnDrama"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="120dp"
+        android:layout_marginBottom="80dp"
         android:text="@string/btn_drama"
         android:textSize="30sp"
+        app:layout_constraintBottom_toTopOf="@+id/editText"
+        tools:layout_editor_absoluteX="16dp" />
+
+    <Button
+        android:id="@+id/btnComedia"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="20dp"
+        android:text="@string/btn_comedia"
+        android:textSize="30sp"
+        app:layout_constraintBottom_toTopOf="@+id/btnFiccion"
+        tools:layout_editor_absoluteX="16dp" />
+
+    <EditText
+        android:id="@+id/editText"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:hint="¿Qué pelicula te gustó?"
+        android:textColorHint="@color/gray1"
+        app:layout_constraintBottom_toTopOf="@+id/btnGuardar"
+        tools:layout_editor_absoluteX="16dp" />
+
+    <Button
+        android:id="@+id/btnGuardar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Guardar"
         app:layout_constraintBottom_toBottomOf="parent"
-        tools:layout_editor_absoluteX="26dp" />
+        tools:layout_editor_absoluteX="143dp" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
