@@ -15,6 +15,12 @@
         android:theme="@style/Base.Theme.MyTrailer"
         tools:targetApi="31">
         <activity
+            android:name=".ReproductorVideoActivity"
+            android:exported="false" />
+        <activity
+            android:name=".AccionActivity"
+            android:exported="false" />
+        <activity
             android:name=".UserProfileActivity"
             android:exported="false" />
         <activity
