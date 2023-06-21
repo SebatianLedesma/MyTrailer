@@ -4,20 +4,9 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
     android:gravity="center"
+    android:orientation="vertical"
     android:padding="16dp">
-
-    <TextView
-        android:id="@+id/tvWelcome"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
-        android:text="@string/welcome_message"
-        android:textSize="30sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
 
     <Button
         android:id="@+id/btnAccion"
@@ -26,27 +15,31 @@
         android:layout_marginBottom="20dp"
         android:text="@string/btn_accion"
         android:textSize="30sp"
-        app:layout_constraintBottom_toTopOf="@+id/btnTerror"
+        app:layout_constraintBottom_toTopOf="@+id/btnSuspenso"
         tools:layout_editor_absoluteX="16dp" />
 
+    <TextView
+        android:id="@+id/tvWelcome"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="28dp"
+        android:text="@string/welcome_message"
+        android:textSize="30sp"
+        app:layout_constraintBottom_toTopOf="@+id/btnAccion"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.497"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.25" />
+
     <Button
-        android:id="@+id/btnTerror"
+        android:id="@+id/btnSuspenso"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginBottom="20dp"
         android:text="@string/btn_suspenso"
         android:textSize="30sp"
         app:layout_constraintBottom_toTopOf="@+id/btnComedia"
-        tools:layout_editor_absoluteX="6dp" />
-
-    <Button
-        android:id="@+id/btnComedia"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="20dp"
-        android:text="@string/btn_comedia"
-        android:textSize="30sp"
-        app:layout_constraintBottom_toTopOf="@+id/btnFiccion"
         tools:layout_editor_absoluteX="16dp" />
 
     <Button
@@ -63,11 +56,52 @@
         android:id="@+id/btnDrama"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="120dp"
+        android:layout_marginBottom="52dp"
         android:text="@string/btn_drama"
         android:textSize="30sp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        tools:layout_editor_absoluteX="26dp" />
+        app:layout_constraintBottom_toTopOf="@+id/editText"
+        tools:layout_editor_absoluteX="16dp" />
 
+    <Button
+        android:id="@+id/btnComedia"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="20dp"
+        android:text="@string/btn_comedia"
+        android:textSize="30sp"
+        app:layout_constraintBottom_toTopOf="@+id/btnFiccion"
+        tools:layout_editor_absoluteX="16dp" />
+
+    <EditText
+        android:id="@+id/editText"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:hint="¿Qué pelicula te gustó?"
+        android:inputType="text"
+        android:textColor="@color/colorPrimary"
+        android:textColorHint="@color/gray1"
+        tools:layout_editor_absoluteX="16dp"
+        tools:layout_editor_absoluteY="554dp" />
+
+
+    <Button
+        android:id="@+id/btnGuardar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:text="Guardar"
+        app:layout_constraintTop_toBottomOf="@+id/editText"
+        tools:layout_editor_absoluteX="95dp" />
+
+    <Button
+        android:id="@+id/button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="20dp"
+        android:text="Mi lista"
+        app:layout_constraintStart_toEndOf="@+id/btnGuardar"
+        app:layout_constraintTop_toBottomOf="@+id/editText" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
