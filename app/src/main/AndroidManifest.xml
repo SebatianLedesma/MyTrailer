@@ -15,38 +15,40 @@
         android:theme="@style/Base.Theme.MyTrailer"
         tools:targetApi="31">
         <activity
+            android:name=".IntermediaActivity"
+            android:exported="false" />
+        <activity
             android:name=".ListaActivity"
             android:exported="false"
-            android:label=""/>
-
+            android:label="" />
         <activity
             android:name=".DramaActivity"
             android:exported="false"
-            android:label=""/>
+            android:label="" />
         <activity
             android:name=".FiccionActivity"
             android:exported="false"
-            android:label=""/>
+            android:label="" />
         <activity
             android:name=".ComediaActivity"
             android:exported="false"
-            android:label=""/>
+            android:label="" />
         <activity
             android:name=".SuspensoActivity"
             android:exported="false"
-            android:label=""/>
+            android:label="" />
         <activity
             android:name=".ReproductorVideoActivity"
             android:exported="false"
-            android:label=""/>
+            android:label="" />
         <activity
             android:name=".AccionActivity"
             android:exported="false"
-            android:label=""/>
+            android:label="" />
         <activity
             android:name=".UserProfileActivity"
             android:exported="false"
-            android:label=""/>
+            android:label="" />
         <activity
             android:name=".MainActivity"
             android:exported="true">
@@ -59,15 +61,15 @@
         <activity
             android:name=".HomeActivity"
             android:exported="true"
-            android:label=""/>
+            android:label="" />
         <activity
             android:name=".LoginActivity"
             android:exported="true"
-            android:label=""/>
+            android:label="" />
         <activity
             android:name=".RegistroActivity"
             android:exported="true"
-            android:label=""/>
+            android:label="" />
     </application>
 
 </manifest>

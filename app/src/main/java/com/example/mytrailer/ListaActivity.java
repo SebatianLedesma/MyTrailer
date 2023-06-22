@@ -62,10 +62,10 @@ public class ListaActivity extends AppCompatActivity {
                         @Override
                         public void onSuccess(DocumentSnapshot documentSnapshot) {
                             if (documentSnapshot.exists()) {
-                                List<String> peliculas = (List<String>) documentSnapshot.get("peliculas");
-                                if (peliculas != null) {
+                                List<String> peliculasFirestoreList = (List<String>) documentSnapshot.get("peliculas");
+                                if (peliculasFirestoreList != null) {
                                     peliculasList.clear(); // Limpiar la lista existente
-                                    peliculasList.addAll(peliculas); // Agregar las nuevas películas
+                                    peliculasList.addAll(peliculasFirestoreList); // Agregar las películas de Firestore
                                     adapter.notifyDataSetChanged(); // Notificar al adaptador del cambio en los datos
                                 }
                             }
@@ -78,5 +78,51 @@ public class ListaActivity extends AppCompatActivity {
                         }
                     });
         }
+
     }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if (requestCode == 1 && resultCode == RESULT_OK) {
+            // Actualizar la lista y notificar al adaptador del cambio en los datos
+            obtenerPeliculasFirestore();
+            adapter.notifyDataSetChanged();
+        }
+    }
+
+    private void obtenerPeliculasFirestore() {
+        FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
+        if (currentUser != null) {
+            String userId = currentUser.getUid();
+
+            FirebaseFirestore db = FirebaseFirestore.getInstance();
+            db.collection("usuarios").document(userId).collection("peliculas").document("lista")
+                    .get()
+                    .addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+                        @Override
+                        public void onSuccess(DocumentSnapshot documentSnapshot) {
+                            if (documentSnapshot.exists()) {
+                                List<String> peliculasFirestoreList = (List<String>) documentSnapshot.get("peliculas");
+                                if (peliculasFirestoreList != null) {
+                                    peliculasList.clear();
+                                    peliculasList.addAll(peliculasFirestoreList);
+                                    adapter.notifyDataSetChanged();
+                                }
+                            }
+                        }
+                    })
+                    .addOnFailureListener(new OnFailureListener() {
+                        @Override
+                        public void onFailure(@NonNull Exception e) {
+                            // Manejar el error al obtener la lista de películas de Firestore
+                        }
+                    });
+        }
+    }
+
+
+
+
 }

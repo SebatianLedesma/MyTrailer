@@ -139,4 +139,9 @@ public class RegistroActivity extends AppCompatActivity {
                     }
                 });
     }
+
+    public void irALogin(View view) {
+        Intent intent = new Intent(this, LoginActivity.class);
+        startActivity(intent);
+    }
 }
