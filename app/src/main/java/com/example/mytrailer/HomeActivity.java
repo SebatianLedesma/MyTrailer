@@ -6,6 +6,8 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
+
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -134,53 +136,59 @@ public class HomeActivity extends AppCompatActivity {
 
     private void guardarTexto() {
         EditText editText = findViewById(R.id.editText);
-        String pelicula = editText.getText().toString();
+        String pelicula = editText.getText().toString().trim();
 
-        // Obtener referencia al usuario actual
-        FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
-        if (currentUser != null) {
-            String userId = currentUser.getUid();
+        if (pelicula.isEmpty()) {
+            // El campo está vacío, muestra un mensaje de error
+            Toast.makeText(this, "Campo vacío", Toast.LENGTH_SHORT).show();
+        } else {
+            // Obtener referencia al usuario actual
+            FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
+            if (currentUser != null) {
+                String userId = currentUser.getUid();
 
-            // Obtener referencia a la base de datos
-            FirebaseFirestore db = FirebaseFirestore.getInstance();
+                // Obtener referencia a la base de datos
+                FirebaseFirestore db = FirebaseFirestore.getInstance();
 
-            // Obtener referencia a la colección de películas del usuario
-            CollectionReference peliculasCollection = db.collection("usuarios").document(userId).collection("peliculas");
+                // Obtener referencia a la colección de películas del usuario
+                CollectionReference peliculasCollection = db.collection("usuarios").document(userId).collection("peliculas");
 
-            // Verificar si la colección "peliculas" existe
-            peliculasCollection.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-                @Override
-                public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                    if (task.isSuccessful()) {
-                        if (task.getResult().isEmpty()) {
-                            // La colección "peliculas" no existe, crearla
-                            peliculasCollection.document("lista").set(new HashMap<>());
+                // Verificar si la colección "peliculas" existe
+                peliculasCollection.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        if (task.isSuccessful()) {
+                            if (task.getResult().isEmpty()) {
+                                // La colección "peliculas" no existe, crearla
+                                peliculasCollection.document("lista").set(new HashMap<>());
+                            }
+
+                            // Agregar la nueva película a la lista existente
+                            peliculasCollection.document("lista").update("peliculas", FieldValue.arrayUnion(pelicula))
+                                    .addOnSuccessListener(new OnSuccessListener<Void>() {
+                                        @Override
+                                        public void onSuccess(Void aVoid) {
+
+                                            setResult(RESULT_OK); // Indicar que la acción fue exitosa
+                                            finish(); // Finalizar la actividad y volver a ListaActivity
+
+                                        }
+                                    })
+                                    .addOnFailureListener(new OnFailureListener() {
+                                        @Override
+                                        public void onFailure(@NonNull Exception e) {
+                                            // Ocurrió un error al guardar la película en la lista
+                                        }
+                                    });
+                        } else {
+                            // Ocurrió un error al verificar la existencia de la colección "peliculas"
                         }
-
-                        // Agregar la nueva película a la lista existente
-                        peliculasCollection.document("lista").update("peliculas", FieldValue.arrayUnion(pelicula))
-                                .addOnSuccessListener(new OnSuccessListener<Void>() {
-                                    @Override
-                                    public void onSuccess(Void aVoid) {
-
-                                        setResult(RESULT_OK); // Indicar que la acción fue exitosa
-                                        finish(); // Finalizar la actividad y volver a ListaActivity
-
-                                    }
-                                })
-                                .addOnFailureListener(new OnFailureListener() {
-                                    @Override
-                                    public void onFailure(@NonNull Exception e) {
-                                        // Ocurrió un error al guardar la película en la lista
-                                    }
-                                });
-                    } else {
-                        // Ocurrió un error al verificar la existencia de la colección "peliculas"
                     }
-                }
-            });
+                });
+            }
         }
     }
+
 
 }
 
