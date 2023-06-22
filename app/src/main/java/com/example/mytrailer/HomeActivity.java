@@ -8,12 +8,19 @@ import android.widget.EditText;
 import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+
+import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QuerySnapshot;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -25,65 +32,7 @@ public class HomeActivity extends AppCompatActivity {
 
     private List<String> peliculasList = new ArrayList<>();
 
-    private void guardarTexto() {
-        EditText editText = findViewById(R.id.editText);
-        String pelicula = editText.getText().toString();
-
-        // Obtener referencia al usuario actual
-        FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
-        if (currentUser != null) {
-            String userId = currentUser.getUid();
-
-            // Obtener referencia a la base de datos
-            FirebaseFirestore db = FirebaseFirestore.getInstance();
-
-            // Obtener la lista existente de películas desde la base de datos
-            db.collection("usuarios").document(userId).collection("peliculas").document("lista")
-                    .get()
-                    .addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
-                        @Override
-                        public void onSuccess(DocumentSnapshot documentSnapshot) {
-                            if (documentSnapshot.exists()) {
-                                List<String> peliculasList = (List<String>) documentSnapshot.get("peliculas");
-                                if (peliculasList != null) {
-                                    // Agregar la nueva película a la lista existente
-                                    peliculasList.add(pelicula);
-
-                                    // Crear un objeto Map con la lista actualizada de películas
-                                    Map<String, Object> data = new HashMap<>();
-                                    data.put("peliculas", peliculasList);
-
-                                    // Guardar la lista de películas actualizada en la base de datos
-                                    db.collection("usuarios").document(userId).collection("peliculas").document("lista")
-                                            .set(data)
-                                            .addOnSuccessListener(new OnSuccessListener<Void>() {
-                                                @Override
-                                                public void onSuccess(Void aVoid) {
-                                                    // Película agregada exitosamente a la lista en la base de datos
-                                                }
-                                            })
-                                            .addOnFailureListener(new OnFailureListener() {
-                                                @Override
-                                                public void onFailure(@NonNull Exception e) {
-                                                    // Ocurrió un error al guardar la lista de películas actualizada
-                                                }
-                                            });
-                                }
-                            }
-                        }
-                    })
-                    .addOnFailureListener(new OnFailureListener() {
-                        @Override
-                        public void onFailure(@NonNull Exception e) {
-                            // Ocurrió un error al obtener la lista de películas de Firestore
-                        }
-                    });
-        }
-    }
-
-
-
-    @Override
+  @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
@@ -112,6 +61,8 @@ public class HomeActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+
+
 
         //"Suspenso"
         Button btnSuspenso = findViewById(R.id.btnSuspenso);
@@ -163,10 +114,9 @@ public class HomeActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 guardarTexto();
-
                 // Redirecciona a ListaActivity al guardar
-                Intent intent = new Intent(HomeActivity.this, ListaActivity.class);
-                startActivity(intent);
+                Intent intent = new Intent(HomeActivity.this, IntermediaActivity.class);
+                startActivityForResult(intent, 1);
             }
         });
 
@@ -174,12 +124,63 @@ public class HomeActivity extends AppCompatActivity {
         btnGoToLista.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(HomeActivity.this, ListaActivity.class);
-                startActivity(intent);
+                Intent intent = new Intent(HomeActivity.this, IntermediaActivity.class);
+                startActivityForResult(intent, 1);
             }
         });
 
 
     }
+
+    private void guardarTexto() {
+        EditText editText = findViewById(R.id.editText);
+        String pelicula = editText.getText().toString();
+
+        // Obtener referencia al usuario actual
+        FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
+        if (currentUser != null) {
+            String userId = currentUser.getUid();
+
+            // Obtener referencia a la base de datos
+            FirebaseFirestore db = FirebaseFirestore.getInstance();
+
+            // Obtener referencia a la colección de películas del usuario
+            CollectionReference peliculasCollection = db.collection("usuarios").document(userId).collection("peliculas");
+
+            // Verificar si la colección "peliculas" existe
+            peliculasCollection.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                @Override
+                public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                    if (task.isSuccessful()) {
+                        if (task.getResult().isEmpty()) {
+                            // La colección "peliculas" no existe, crearla
+                            peliculasCollection.document("lista").set(new HashMap<>());
+                        }
+
+                        // Agregar la nueva película a la lista existente
+                        peliculasCollection.document("lista").update("peliculas", FieldValue.arrayUnion(pelicula))
+                                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                                    @Override
+                                    public void onSuccess(Void aVoid) {
+
+                                        setResult(RESULT_OK); // Indicar que la acción fue exitosa
+                                        finish(); // Finalizar la actividad y volver a ListaActivity
+
+                                    }
+                                })
+                                .addOnFailureListener(new OnFailureListener() {
+                                    @Override
+                                    public void onFailure(@NonNull Exception e) {
+                                        // Ocurrió un error al guardar la película en la lista
+                                    }
+                                });
+                    } else {
+                        // Ocurrió un error al verificar la existencia de la colección "peliculas"
+                    }
+                }
+            });
+        }
+    }
+
 }
 
